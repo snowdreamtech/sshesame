@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+# start sshesame
+/usr/local/bin/sshesame -config /etc/sshesame/config.yaml -data_dir /etc/sshesame/
+
 # exec commands
 if [ -n "$*" ]; then
     sh -c "$*"

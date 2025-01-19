@@ -1,5 +1,11 @@
 FROM snowdreamtech/golang:1.23.4-alpine3.21 AS builder
 
+# Switch to the user
+USER root
+
+# Set the workdir
+WORKDIR /root
+
 ENV SSHESAME_VERSION=0.0.39
 
 RUN apk -U upgrade --no-cache
@@ -30,8 +36,8 @@ LABEL org.opencontainers.image.authors="Snowdream Tech" \
 ENV KEEPALIVE=1 \
     SSHESAME_VERSION=0.0.39 
 
-COPY --from=builder /home/go/sshesame-${SSHESAME_VERSION}/sshesame /usr/local/bin/sshesame
-COPY --from=builder /home/go/sshesame-${SSHESAME_VERSION}/sshesame.yaml /etc/sshesame/config.yaml
+COPY --from=builder /root/sshesame-${SSHESAME_VERSION}/sshesame /usr/local/bin/sshesame
+COPY --from=builder /root/sshesame-${SSHESAME_VERSION}/sshesame.yaml /etc/sshesame/config.yaml
 
 RUN set -eux \
     && cd /etc/sshesame \

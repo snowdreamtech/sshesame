@@ -4,9 +4,6 @@ ENV SSHESAME_VERSION=0.0.39
 
 RUN apt-get update && apt-get -y upgrade && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /workspace
-WORKDIR /workspace
-
 RUN set -eux \
     && wget -c https://github.com/jaksi/sshesame/archive/refs/tags/v${SSHESAME_VERSION}.tar.gz -O sshesame-${SSHESAME_VERSION}.tar.gz \
     && tar zxvf sshesame-${SSHESAME_VERSION}.tar.gz \
@@ -33,8 +30,8 @@ LABEL org.opencontainers.image.authors="Snowdream Tech" \
 ENV KEEPALIVE=1 \
     SSHESAME_VERSION=0.0.39 
 
-COPY --from=builder /workspace/sshesame-${SSHESAME_VERSION}/sshesame /usr/local/bin/sshesame
-COPY --from=builder /workspace/sshesame-${SSHESAME_VERSION}/sshesame.yaml /etc/sshesame/config.yaml
+COPY --from=builder /home/go/sshesame-${SSHESAME_VERSION}/sshesame /usr/local/bin/sshesame
+COPY --from=builder /home/go/sshesame-${SSHESAME_VERSION}/sshesame.yaml /etc/sshesame/config.yaml
 
 RUN set -eux \
     && cd /etc/sshesame \

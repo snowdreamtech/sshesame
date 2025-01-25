@@ -1,4 +1,4 @@
-FROM snowdreamtech/golang:1.23.4-alpine3.21 AS builder
+FROM snowdreamtech/golang:1.22.10-alpine3.20 AS builder
 
 # Switch to the user
 USER root

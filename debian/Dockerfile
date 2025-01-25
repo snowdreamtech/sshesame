@@ -1,4 +1,4 @@
-FROM snowdreamtech/golang:1.21.13-bookworm AS builder
+FROM snowdreamtech/golang:1.22.11-bookworm AS builder
 
 # Switch to the user
 USER root

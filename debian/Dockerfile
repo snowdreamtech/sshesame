@@ -1,4 +1,7 @@
-FROM snowdreamtech/golang:1.23.5-bookworm AS builder
+FROM --platform=$BUILDPLATFORM snowdreamtech/golang:1.23.5-bookworm AS builder
+
+ARG TARGETOS
+ARG TARGETARCH
 
 # Switch to the user
 USER root
@@ -15,10 +18,10 @@ RUN set -eux \
     && tar zxvf sshesame-${SSHESAME_VERSION}.tar.gz \
     && cd sshesame-${SSHESAME_VERSION} \
     && go mod tidy \
-    && go build -v -o sshesame 
+    && CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -trimpath -ldflags "-s -w" -v -o sshesame 
 
     
-FROM snowdreamtech/debian:12.8.0
+FROM snowdreamtech/debian:12.10.0
 
 # OCI annotations to image
 LABEL org.opencontainers.image.authors="Snowdream Tech" \
